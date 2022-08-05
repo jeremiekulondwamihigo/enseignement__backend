@@ -45,9 +45,8 @@ app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
 
 
 app.use("/", (req, res)=>{
-  req.session.id = true
-  address.mac(function(err, addr){
-    return res.send(addr)
+  res.send({
+    "message":"Merci seigneur"
   })
 })
 
@@ -61,5 +60,5 @@ const server = app.listen(PORT, ()=>console.log("server running "+PORT))
 
 process.on("unhandledRejection", (err, promise)=>{
   console.log(`Logged Error :${err}`);
-  server.close(()=>process.exit(1));
+  // server.close(()=>process.exit(1));
 })
