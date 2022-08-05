@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 
 
 
-app.get("/", (req, res)=>{
+app.get("/sign", (req, res)=>{
   res.send({
     "message":"Merci seigneur"
   })
