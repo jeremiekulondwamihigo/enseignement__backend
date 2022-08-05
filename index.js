@@ -44,7 +44,7 @@ app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
 
 
 
-app.use("/", (req, res)=>{
+app.get("/", (req, res)=>{
   res.send({
     "message":"Merci seigneur"
   })
