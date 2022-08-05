@@ -40,9 +40,9 @@ app.use(errorHandler);
 
 
 const PORT = process.env.PORT || 9002;
-const server = app.listen(PORT, ()=>console.log("server running "+PORT))
+app.listen(PORT, ()=>console.log("server running "+PORT))
 
-process.on("unhandledRejection", (err, promise)=>{
-  console.log(`Logged Error :${err}`);
-  // server.close(()=>process.exit(1));
-})
+// process.on("unhandledRejection", (err, promise)=>{
+//   console.log(`Logged Error :${err}`);
+//   // server.close(()=>process.exit(1));
+// })
