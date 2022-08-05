@@ -2,12 +2,13 @@
   "name": "index",
   "version": "1.0.0",
   "main": "index.js",
+  "engine":{
+    "node":"14.x"
+  },
   "scripts": {
     "start": "node index.js",
-    "build": "cd Ecole_bulletin && npm run build",
-    "install-client": "cd Ecole_bulletin && npm install",
-    "client": "cd Ecole_bulletin && npm start",
-    "heroku-postbuild": "npm run install-client && npm run build"
+    "test":"echo \"Error: no test specified\" && exit 1"
+    
   },
   "author": "JEREMIE",
   "license": "ISC",
