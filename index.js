@@ -1,5 +1,3 @@
-require("dotenv").config({path : "./congif.env"});
-
 const express = require("express");
 const connectDB = require("./config/db");
 const errorHandler = require("./middleware/error")
@@ -8,7 +6,6 @@ const bodyParser = require("body-parser")
 const expressSession = require("express-session");
 const MongodbSession = require("connect-mongodb-session")(expressSession);
 const { MONGODB_URL } = require("./config/data")
-const address = require("address")
 const path = require("path")
 
 connectDB();
@@ -20,27 +17,14 @@ app.use(bodyParser.urlencoded({limit:'50mb', extended : true }))
 app.use(bodyParser.json());
 
 
-const store = new MongodbSession({
-  uri : MONGODB_URL,
-  collection : "mySession"
-})
+// app.use("/api/auth", require("./Routes/auth"));
+// app.use("/api/private", require("./Routes/private"));
+// app.use("/bulletin/read", require("./Routes/Read"))
+// app.use("/bulletin/create", require("./Routes/Create"))
+// app.use("/bulletin/delete", require("./Routes/Delete"))
+// app.use("/bulletin/update", require("./Routes/Update"))
 
-app.use(expressSession({
-  secret : "je suis un eleve",
-  resave : false,
-  saveUninitialized : false,
-  store : store
-}))
-
-
-app.use("/api/auth", require("./Routes/auth"));
-app.use("/api/private", require("./Routes/private"));
-app.use("/bulletin/read", require("./Routes/Read"))
-app.use("/bulletin/create", require("./Routes/Create"))
-app.use("/bulletin/delete", require("./Routes/Delete"))
-app.use("/bulletin/update", require("./Routes/Update"))
-
-app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
+// app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
 
 
 
