@@ -4,6 +4,6 @@ const {  getPrivateData } = require("../Controllers/private")
 const { protect } = require("../middleware/auth");
 
 
-router.route("/private").get(protect, getPrivateData)
+router.get("/private", protect, getPrivateData)
 
 module.exports = router;
