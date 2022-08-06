@@ -5,12 +5,16 @@
             "src":"./index.js",
             "use":"@vercel/node"
         }
+        
     ],
-    
-    "rewrites": [
+    "routes": [
         {
-            "source":"/api/auth/register",
-            "destination":"/Controllers/auth"
+            "src":"/(.*)",
+            "destination":"/"
+        },
+        {
+            "source": "/api/auth/:path*",
+            "destination": "/:path*"
         }
     ]
 }
