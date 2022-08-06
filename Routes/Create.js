@@ -37,16 +37,16 @@ var storage = multer.diskStorage({
 })
 var upload = multer({ storage: storage })
 
-router.route("/add_year").post(protect, Add_Annee );
-router.route("/add_section").post(protect, Add_Section);
-router.route("/add_option").post(protect, Add_Option);
-router.route("/add_domaine").post(protect, Add_Domaine);
-router.route("/add_cours").post(protect, Add_Cours);
-router.route("/sous_domaine").post(protect, Add_Sous_Domaine);
+router.route("/addyear").post(protect, Add_Annee );
+router.route("/addsection").post(protect, Add_Section);
+router.route("/addoption").post(protect, Add_Option);
+router.route("/adddomaine").post(protect, Add_Domaine);
+router.route("/addcours").post(protect, Add_Cours);
+router.route("/sousdomaine").post(protect, Add_Sous_Domaine);
 router.post("/agent", upload.single("file"),  Agent);
-router.route("/add_secteur").post(protect, Add_Secteur)
-router.route("/add_periode_secteur").post(protect, Add_Periode_Secteur)
-router.route("/add_etablissement").post(Add_Etablissement)
+router.route("/addsecteur").post(protect, Add_Secteur)
+router.route("/addperiode_secteur").post(protect, Add_Periode_Secteur)
+router.route("/addetablissement").post(Add_Etablissement)
 router.route("/division").post(Add_Division)
 
 router.route("/enseignantEcole").post(protect, Save_Enseignant)

@@ -5,7 +5,7 @@ const { Read_Year } = require("../Controllers/Setting_Annee")
 
 
 
-router.route("/read_year").get(protect, Read_Year )
+router.route("/readyear").get(protect, Read_Year )
 
 
 module.exports = router;

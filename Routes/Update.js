@@ -10,12 +10,12 @@ const { Attribution_Option } = require("../Controllers/Etablissement")
 
 
 
-router.route("/update_year").put(protect, Modificate_Year);
-router.route("/update_section").put(protect, modificate_section);
-router.route("/update_option").put(protect, Modification_Option);
-router.route("/update_agent").put(protect, Modification_Agent);
-router.route("/reset_identifiant/:id").put(protect, Reset_Identifiant);
-router.route("/update_secteur/:id").put(protect, Update_Secteur);
+router.route("/updateyear").put(protect, Modificate_Year);
+router.route("/updatesection").put(protect, modificate_section);
+router.route("/updateoption").put(protect, Modification_Option);
+router.route("/updateagent").put(protect, Modification_Agent);
+router.route("/resetidentifiant/:id").put(protect, Reset_Identifiant);
+router.route("/updatesecteur/:id").put(protect, Update_Secteur);
 router.route("/attribution").put(Attribution_Option);
 
 
