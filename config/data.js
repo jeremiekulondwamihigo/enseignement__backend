@@ -6,5 +6,5 @@ module.exports = {
   EMAIL_USERNAME : "",
   EMAIL_PASSWORD : "",
   EMAIL_FROM :"",
-  MONGODB_URL : "mongodb://localhost:27017/node_auth"
+  MONGODB_URL : "mongodb+srv://jeremie:jeremie1234@cluster0.jdnjp.mongodb.net/?retryWrites=true&w=majority"
 }
