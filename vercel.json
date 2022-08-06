@@ -10,11 +10,11 @@
     "routes": [
         {
             "src":"/(.*)",
-            "destination":"/"
+            "dest":"/"
         },
         {
-            "source": "/api/auth/:path*",
-            "destination": "/:path*"
+            "src": "/api/auth/:path*",
+            "dest": "/:path*"
         }
     ]
 }
