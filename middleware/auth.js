@@ -5,7 +5,8 @@ const ErrorResponse = require("../utils/errorResponse")
 const { JWT_SECRET } = require("../config/data");
 const Model_Etablissement = require("../Models/Model_Etablissement")
 
-exports.protect = async (req, res, next)=>{
+module.exports = {
+protect : async (req, res, next)=>{
     let token;
     if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
         token = req.headers.authorization.split(" ")[1];
@@ -31,4 +32,5 @@ exports.protect = async (req, res, next)=>{
     } catch (error) {
         return next(new ErrorResponse("Not authorization to access this id", 200))
     }
+}
 }
