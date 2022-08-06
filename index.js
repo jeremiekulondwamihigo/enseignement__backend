@@ -22,11 +22,11 @@ app.use(bodyParser.json());
 
 
 app.use("/api/auth", authRoute);
-app.use("/api/private", privateRoute);
-app.use("/bulletin/read", readRoute)
-app.use("/bulletin/create", createRoute)
-app.use("/bulletin/delete", deleteRoute)
-app.use("/bulletin/update", updateRoute)
+// app.use("/api/private", privateRoute);
+// app.use("/bulletin/read", readRoute)
+// app.use("/bulletin/create", createRoute)
+// app.use("/bulletin/delete", deleteRoute)
+// app.use("/bulletin/update", updateRoute)
 
 app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
 
