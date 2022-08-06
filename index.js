@@ -15,12 +15,12 @@ app.use(bodyParser.urlencoded({limit:'50mb', extended : true }))
 app.use(bodyParser.json());
 
 
-// app.use("/api/auth", require("./Routes/auth"));
-// app.use("/api/private", require("./Routes/private"));
-// app.use("/bulletin/read", require("./Routes/Read"))
-// app.use("/bulletin/create", require("./Routes/Create"))
-// app.use("/bulletin/delete", require("./Routes/Delete"))
-// app.use("/bulletin/update", require("./Routes/Update"))
+app.use("/api/auth", require("./Routes/auth"));
+app.use("/api/private", require("./Routes/private"));
+app.use("/bulletin/read", require("./Routes/Read"))
+app.use("/bulletin/create", require("./Routes/Create"))
+app.use("/bulletin/delete", require("./Routes/Delete"))
+app.use("/bulletin/update", require("./Routes/Update"))
 
 app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
 
