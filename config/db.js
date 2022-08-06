@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const connectDB = async ()=>{
-    await mongoose.connect("mongodb://localhost:27017/node_auth", {
+    await mongoose.connect("mongodb+srv://jeremie:unU82Epc6PsmN9jS@cluster0.jdnjp.mongodb.net/?retryWrites=true&w=majority", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify : false,
