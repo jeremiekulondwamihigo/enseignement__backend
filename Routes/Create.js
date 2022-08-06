@@ -11,6 +11,7 @@ const { Add_Periode_Secteur } = require("../Controllers/Parameter_Detail_Secteur
 const { Add_Etablissement } = require("../Controllers/Etablissement")
 const { Add_Division } = require("../Controllers/SousDivision")
 const { Save_Enseignant } = require("../Controllers/EnseignantEcole")
+const { Add_Eleve } = require("../Controllers/Eleve")
 
 const multer = require("multer")
 
@@ -47,6 +48,9 @@ router.route("/add_secteur").post(protect, Add_Secteur)
 router.route("/add_periode_secteur").post(protect, Add_Periode_Secteur)
 router.route("/add_etablissement").post(Add_Etablissement)
 router.route("/division").post(Add_Division)
+
 router.route("/enseignantEcole").post(protect, Save_Enseignant)
+router.route("/eleve").post(Add_Eleve)
+
 
 module.exports = router;
