@@ -8,7 +8,7 @@ const path = require("path")
 const readRoute = require("./Routes/Read")
 const createRout = require("./Routes/Create")
 const updateRoute = require("./Routes/Update")
-// const authRoute = require("./Routes/auth")
+const authRoute = require("./Routes/auth")
 const privateRoute = require("./Routes/private")
 
 connectDB();
@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({limit:'50mb', extended : true }))
 app.use(bodyParser.json());
 
 
-// app.use("/api/auth", authRoute);
+app.use("/api/auth", authRoute);
 app.use("/api/private", privateRoute);
 
 app.use("/bulletin/update", updateRoute)
