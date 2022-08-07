@@ -2,14 +2,12 @@
   "name": "index",
   "version": "1.0.0",
   "main": "index.js",
+  "type":"module",
   "engines": {
     "node": "14.x"
   },
   "scripts": {
-    "build": "node index.js",
-    "install-client": "cd Ecole_bulletin && npm install",
-    "client": "cd Ecole_bulletin && npm start",
-    "heroku-postbuild": "npm run install-client && npm run build"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "JEREMIE",
