@@ -14,29 +14,29 @@ const { Save_Enseignant } = require("../Controllers/EnseignantEcole")
 const { Add_Eleve } = require("../Controllers/Eleve")
 const { login } = require("../controllers/auth");
 
-const multer = require("multer")
+// const multer = require("multer")
 
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'agentImages/')
-    },
-    filename: (req, file, cb) => {
+// var storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'agentImages/')
+//     },
+//     filename: (req, file, cb) => {
 
-        const image = (file.originalname).split(".");
-        cb(null, `${Date.now()}.${image[1]}`)
+//         const image = (file.originalname).split(".");
+//         cb(null, `${Date.now()}.${image[1]}`)
         
-    },
-    fileFilter: (req, file, cb) => {
+//     },
+//     fileFilter: (req, file, cb) => {
 
-        const ext = path.extname(file.originalname)
+//         const ext = path.extname(file.originalname)
         
-        if (ext !== '.jpg' || ext !== '.png') {
-            return cb(res.status(400).end('only jpg, png are allowed'), false);
-        }
-        cb(null, true)
-    }
-})
-var upload = multer({ storage: storage })
+//         if (ext !== '.jpg' || ext !== '.png') {
+//             return cb(res.status(400).end('only jpg, png are allowed'), false);
+//         }
+//         cb(null, true)
+//     }
+// })
+// var upload = multer({ storage: storage })
 
 router.post("/addyear", protect, Add_Annee );
 router.post("/addsection", protect, Add_Section);
@@ -44,7 +44,8 @@ router.post("/addoption", protect, Add_Option);
 router.post("/adddomaine", protect, Add_Domaine);
 router.post("/addcours", protect, Add_Cours);
 router.post("/sousdomaine", protect, Add_Sous_Domaine);
-router.post("/agent", upload.single("file"),  Agent);
+// router.post("/agent", upload.single("file"),  Agent);
+router.post("/agent",  Agent);
 router.post("/addsecteur", protect, Add_Secteur)
 router.post("/addperiodesecteur", protect, Add_Periode_Secteur)
 router.post("/addetablissement", Add_Etablissement)
