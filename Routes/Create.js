@@ -49,8 +49,11 @@ router.post("/addperiodesecteur", protect, Add_Periode_Secteur)
 router.post("/addetablissement", Add_Etablissement)
 router.post("/division", Add_Division)
 
-router.route("/enseignantEcole").post(protect, Save_Enseignant)
-router.route("/eleve").post(Add_Eleve)
+router.post("/enseignantEcole", protect, Save_Enseignant)
+router.post("/eleve", Add_Eleve)
+router.get("/read", (req, res)=>{
+    return res.send({"message":"je suis dans creation"})
+})
 
 
 module.exports = router;

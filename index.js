@@ -7,7 +7,6 @@ const bodyParser = require("body-parser")
 const path = require("path")
 const readRoute = require("./Routes/Read")
 const createRout = require("./Routes/Create")
-// const deleteRoute = require("./Routes/Delete")
 // const updateRoute = require("./Routes/Update")
 // const authRoute = require("./Routes/auth")
 // const privateRoute = require("./Routes/private")
@@ -25,7 +24,6 @@ app.use(bodyParser.json());
 // app.use("/api/private", privateRoute);
 app.use("/bulletin/read", readRoute)
 app.use("/bulletin/create", createRout)
-// app.use("/bulletin/delete", deleteRoute)
 // app.use("/bulletin/update", updateRoute)
 
 app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))

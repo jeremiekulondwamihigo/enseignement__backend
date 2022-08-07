@@ -17,6 +17,9 @@ router.put("/updateagent", protect, Modification_Agent);
 router.put("/resetidentifiant/:id", protect, Reset_Identifiant);
 router.put("/updatesecteur/:id", protect, Update_Secteur);
 router.put("/attribution", Attribution_Option);
+router.get("/read", (req, res)=>{
+    return res.send({"message":"je suis dans update"})
+})
 
 
 
