@@ -30,7 +30,7 @@ app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
 //Error Handler  ()
 app.use(errorHandler);
 
-app.get("/log", (req, res)=>{
+app.get("/", (req, res)=>{
   return res.send({"code":"Jeremie deployement"})
 })
 
