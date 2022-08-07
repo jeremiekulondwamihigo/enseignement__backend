@@ -1,29 +1,15 @@
 {
     "version": 2,
-    "name": "music-album",
+    "name": "backend",
     "builds": [
        { 
         "src": "index.js", 
-        "use": "@vercel/node" 
-    }
+        "use": "@vercel/node" }
     ],
     "routes": [
-        
-        {
-            "src":"/api/private/(.*)",
-            "dest":"/Routes/private.js"
-        },
-        {
-            "src":"/bulletin/update/(.*)",
-            "dest":"/Routes/Update.js"
-        },
-        {
-            "src":"/bulletin/read/(.*)",
-            "dest":"/Routes/Read.js"
-        },
-        {
-            "src":"/bulletin/create/(.*)",
-            "dest":"/Routes/Create.js"
+       { 
+            "src": "/(.*)", 
+            "dest": "/index.js" 
         }
     ]
  }
