@@ -12,7 +12,7 @@ const { Add_Etablissement } = require("../Controllers/Etablissement")
 const { Add_Division } = require("../Controllers/SousDivision")
 const { Save_Enseignant } = require("../Controllers/EnseignantEcole")
 const { Add_Eleve } = require("../Controllers/Eleve")
-const { register, login } = require("../controllers/auth");
+// const { register, login } = require("../controllers/auth");
 
 const multer = require("multer")
 
