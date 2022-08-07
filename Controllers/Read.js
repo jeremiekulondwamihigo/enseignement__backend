@@ -6,7 +6,8 @@ const Model_secteur = require("../Models/Model_Secteur")
 const Model_Etablissement = require("../Models/Model_Etablissement")
 const asyncLab = require("async")
 
-exports.readUser = async (req, res, next)=>{
+module.exports = {
+readUser : async (req, res, next)=>{
     let token;
     if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
         token = req.headers.authorization.split(" ")[1];
@@ -112,4 +113,5 @@ exports.readUser = async (req, res, next)=>{
     } catch (error) {
         return next(new ErrorResponse("Not authorization to access this id", 200))
     }
+}
 }
