@@ -5,6 +5,7 @@ const errorHandler = require("./middleware/error")
 const cors = require("cors")
 const bodyParser = require("body-parser")
 const path = require("path")
+
 const readRoute = require("./Routes/Read")
 const createRout = require("./Routes/Create")
 const updateRoute = require("./Routes/Update")
@@ -29,15 +30,15 @@ app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
 //Error Handler  ()
 app.use(errorHandler);
 
-app.get("/", (req, res)=>{
+app.get("/log", (req, res)=>{
   return res.send({"code":"Jeremie deployement"})
 })
 
 
 const PORT = process.env.PORT || 8080;
-const server = app.listen(PORT, ()=>console.log("server running "+PORT))
+app.listen(PORT, ()=>console.log("server running "+PORT))
 
-process.on("unhandledRejection", (err, promise)=>{
-  console.log(`Logged Error :${err}`);
-  server.close(()=>process.exit(1));
-})
+// process.on("unhandledRejection", (err, promise)=>{
+//   console.log(`Logged Error :${err}`);
+//   // server.close(()=>process.exit(1));
+// })
