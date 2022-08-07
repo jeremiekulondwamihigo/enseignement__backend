@@ -2,7 +2,8 @@ const ErrorResponse = require("../utils/errorResponse");
 const Model_User = require("../Models/Users")
 
 
-exports.register = async (req, res, next )=>{
+exports.export = {
+register : async (req, res, next )=>{
     const { username, password, email } = req.body;
 
     try {
@@ -15,9 +16,8 @@ exports.register = async (req, res, next )=>{
     } catch (error) {
       next(error);
     }
-}
-
-exports.login = async (req, res, next) =>{
+},
+login : async (req, res, next) =>{
   
   const { username, password } = req.body;
 
@@ -46,9 +46,8 @@ exports.login = async (req, res, next) =>{
     res.status(500).json({ success : false, error: error.message
     })
   }
-}
-
-exports.forgetPassword = async (req, res, next)=>{
+},
+forgetPassword : async (req, res, next)=>{
   const { mail } = req.body;
 
   try {
@@ -77,14 +76,14 @@ exports.forgetPassword = async (req, res, next)=>{
   } catch (error) {
     
   }
-}
-
-exports.resetPassword = (req, res, next)=>{
+},
+resetPassword : (req, res, next)=>{
   res.send("Reset password");
-}
+},
 
-const sendToken = (user, statusCode, res)=>{
+sendToken : (user, statusCode, res)=>{
   
   const token = user.getSignedToken();
   res.status(statusCode).json({sucess : true, token })
+}
 }
