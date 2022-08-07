@@ -8,10 +8,7 @@
     }
     ],
     "routes": [
-        { 
-            "src": "/(.*)", 
-            "dest": "/index.js" 
-        },
+        
         {
             "src":"/api/private/(.*)",
             "dest":"/Routes/private.js"
