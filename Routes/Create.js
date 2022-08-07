@@ -12,7 +12,7 @@ const { Add_Etablissement } = require("../Controllers/Etablissement")
 const { Add_Division } = require("../Controllers/SousDivision")
 const { Save_Enseignant } = require("../Controllers/EnseignantEcole")
 const { Add_Eleve } = require("../Controllers/Eleve")
-// const { register, login } = require("../controllers/auth");
+const { login } = require("../controllers/auth");
 
 const multer = require("multer")
 
@@ -53,10 +53,7 @@ router.post("/division", Add_Division)
 router.post("/enseignantEcole", protect, Save_Enseignant)
 router.post("/eleve", Add_Eleve)
 
-
-
-// router.post("/register", register);
-// router.post("/login", login);
+router.post("/login", login);
 
 router.get("/read", (req, res)=>{
     return res.send({"message":"je suis dans creation"})
