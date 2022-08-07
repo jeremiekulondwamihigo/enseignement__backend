@@ -51,6 +51,17 @@ router.post("/division", Add_Division)
 
 router.post("/enseignantEcole", protect, Save_Enseignant)
 router.post("/eleve", Add_Eleve)
+
+
+
+
+
+const { register, login } = require("../controllers/auth");
+
+
+router.post("/register", register);
+router.post("/login", login);
+
 router.get("/read", (req, res)=>{
     return res.send({"message":"je suis dans creation"})
 })
