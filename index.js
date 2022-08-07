@@ -25,7 +25,7 @@ app.use("/bulletin/update", updateRoute)
 app.use("/bulletin/read", readRoute)
 app.use("/bulletin/create", createRout)
 
-app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
+// app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
 
 //Error Handler  ()
 app.use(errorHandler);

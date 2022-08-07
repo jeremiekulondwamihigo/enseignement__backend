@@ -44,7 +44,7 @@ router.post("/adddomaine", protect, Add_Domaine);
 router.post("/addcours", protect, Add_Cours);
 router.post("/sousdomaine", protect, Add_Sous_Domaine);
 // router.post("/agent", upload.single("file"),  Agent);
-router.post("/agent",  Agent);
+router.post("/agent", Agent);
 router.post("/addsecteur", protect, Add_Secteur)
 router.post("/addperiodesecteur", protect, Add_Periode_Secteur)
 router.post("/addetablissement", Add_Etablissement)
