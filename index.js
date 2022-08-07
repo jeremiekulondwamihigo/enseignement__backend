@@ -6,11 +6,11 @@ const cors = require("cors")
 const bodyParser = require("body-parser")
 const path = require("path")
 const readRoute = require("./Routes/Read")
-const createRoute = require("./Routes/Create")
-const deleteRoute = require("./Routes/Delete")
-const updateRoute = require("./Routes/Update")
-const authRoute = require("./Routes/auth")
-const privateRoute = require("./Routes/private")
+// const createRoute = require("./Routes/Create")
+// const deleteRoute = require("./Routes/Delete")
+// const updateRoute = require("./Routes/Update")
+// const authRoute = require("./Routes/auth")
+// const privateRoute = require("./Routes/private")
 
 connectDB();
 const app = express();
@@ -21,12 +21,12 @@ app.use(bodyParser.urlencoded({limit:'50mb', extended : true }))
 app.use(bodyParser.json());
 
 
-app.use("/api/auth", authRoute);
-app.use("/api/private", privateRoute);
+// app.use("/api/auth", authRoute);
+// app.use("/api/private", privateRoute);
 app.use("/bulletin/read", readRoute)
-app.use("/bulletin/create", createRoute)
-app.use("/bulletin/delete", deleteRoute)
-app.use("/bulletin/update", updateRoute)
+// app.use("/bulletin/create", createRoute)
+// app.use("/bulletin/delete", deleteRoute)
+// app.use("/bulletin/update", updateRoute)
 
 app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
 

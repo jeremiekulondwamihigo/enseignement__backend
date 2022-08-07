@@ -25,6 +25,9 @@ router.get("/readetablissement/:secteur", Read_etablissement)
 router.get("/oneAgent/:codeagent", protect, One_agent)
 router.get("/allAgentEtablissement/:codeetablissement", protect, Read_Agent_Etablissement)
 router.get("/etablissementOption/:id", Read_Option_Etablissement)
+router.get("/read", (req, res)=>{
+    return res.send({"message":"je suis dans read"})
+})
 
 
 module.exports = router;
