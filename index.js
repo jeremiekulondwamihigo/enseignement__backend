@@ -6,7 +6,7 @@ const cors = require("cors")
 const bodyParser = require("body-parser")
 const path = require("path")
 const readRoute = require("./Routes/Read")
-// const createRoute = require("./Routes/Create")
+const createRoute = require("./Routes/Create")
 // const deleteRoute = require("./Routes/Delete")
 // const updateRoute = require("./Routes/Update")
 // const authRoute = require("./Routes/auth")
@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 // app.use("/api/auth", authRoute);
 // app.use("/api/private", privateRoute);
 app.use("/bulletin/read", readRoute)
-// app.use("/bulletin/create", createRoute)
+app.use("/bulletin/create", createRoute)
 // app.use("/bulletin/delete", deleteRoute)
 // app.use("/bulletin/update", updateRoute)
 
