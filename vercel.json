@@ -8,9 +8,25 @@
     }
     ],
     "routes": [
-       { 
+        { 
             "src": "/(.*)", 
             "dest": "/index.js" 
+        },
+        {
+            "src":"/api/private/(.*)",
+            "dest":"/Routes/private.js"
+        },
+        {
+            "src":"/bulletin/update/(.*)",
+            "dest":"/Routes/Update.js"
+        },
+        {
+            "src":"/bulletin/read/(.*)",
+            "dest":"/Routes/Read.js"
+        },
+        {
+            "src":"/bulletin/create/(.*)",
+            "dest":"/Routes/Create.js"
         }
     ]
  }
