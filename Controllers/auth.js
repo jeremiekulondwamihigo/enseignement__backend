@@ -34,6 +34,11 @@ login : async (req, res, next) =>{
   }
 },
 
+
+resetPassword : (req, res, next)=>{
+  res.send("Reset password");
+},
+
 sendToken : (user, statusCode, res)=>{
   
   const token = user.getSignedToken();
