@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({limit:'50mb', extended : true }))
 app.use(bodyParser.json());
 
 
-app.use("/api/auth", authRoute);
+//app.use("/api/auth", authRoute);
 // app.use("/api/private", privateRoute);
 // app.use("/bulletin/read", readRoute)
 // app.use("/bulletin/create", createRoute)
