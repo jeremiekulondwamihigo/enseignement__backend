@@ -38,9 +38,9 @@ app.get("/", (req, res)=>{
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, ()=>console.log("server running "+PORT))
 
-// process.on("unhandledRejection", (err, promise)=>{
-//   console.log(`Logged Error :${err}`);
+process.on("unhandledRejection", (err, promise)=>{
+  console.log(`Logged Error :${err}`);
   
-//   server.close(()=>process.exit(1));
+  server.close(()=>process.exit(1));
   
-// })
+})
