@@ -55,8 +55,8 @@ router.post("/eleve", Add_Eleve)
 
 
 
-router.post("/register", register);
-router.post("/login", login);
+// router.post("/register", register);
+// router.post("/login", login);
 
 router.get("/read", (req, res)=>{
     return res.send({"message":"je suis dans creation"})
