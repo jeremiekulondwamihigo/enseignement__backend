@@ -7,9 +7,9 @@ const bodyParser = require("body-parser")
 const path = require("path")
 const readRoute = require("./Routes/Read")
 const createRout = require("./Routes/Create")
-// const updateRoute = require("./Routes/Update")
-// const authRoute = require("./Routes/auth")
-// const privateRoute = require("./Routes/private")
+const updateRoute = require("./Routes/Update")
+const authRoute = require("./Routes/auth")
+const privateRoute = require("./Routes/private")
 
 connectDB();
 const app = express();
