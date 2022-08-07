@@ -20,9 +20,7 @@ app.use(bodyParser.json());
 
 
 app.use("/api/private", privateRoute);
-
 app.use("/bulletin/update", updateRoute)
-
 app.use("/bulletin/read", readRoute)
 app.use("/bulletin/create", createRout)
 
