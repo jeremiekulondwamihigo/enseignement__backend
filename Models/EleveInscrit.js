@@ -31,7 +31,6 @@ const schema = mongoose.Schema({
         required:true,
         default : 0
     },
-    
 })
 const model = new mongoose.model("EleveInscrit", schema);
 module.exports = model
