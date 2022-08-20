@@ -9,14 +9,16 @@ module.exports = {
 
     Add_Secteur : (req, res, next)=>{
         try {
-            const { code_province, code_agent, denomination, code_secteur, id } = req.body
+            const { code_province, code_agent, denomination, code_secteur, id } = req.body.valeur
+            const { fonction } = req.body
 
-            if(isEmpty(code_province) || isEmpty(code_agent) || isEmpty(denomination) || isEmpty(code_secteur)){
+            if(isEmpty(code_province) || isEmpty(code_agent) || isEmpty(denomination) || isEmpty(fonction)){
                 return res.status(200).json({
                     "message":"Veuillez renseigner le champs",
                     "error":true
                 })
             }
+            const nomSecteur = denomination.toUpperCase().trim()
             const username = generateString(5)
             const password = generateString(6)
 
@@ -45,19 +47,24 @@ module.exports = {
                 },
                 function(agent, done){
                     Model_Secteur.create({
-                        code_province, code_agent : agent.code_agent, denomination, 
-                        code_secteur, id, 
+                        code_province, code_agent : agent.code_agent, denomination : nomSecteur, 
+                        code_proved : code_secteur, id, 
                     }).then(secteurCreate =>{
                         if(secteurCreate){
                             done(null, secteurCreate)
                         }else{
                             done(false)
                         }
+                    }).catch(function(error){
+                        return res.status(200).json({
+                            "message":error,
+                            "catch":true
+                        })
                     })
                 },
                 function(secteurCreate, done){
                     Model_User.create({
-                        username, password, _id : secteurCreate._id, fonction : "secteur"
+                        username, password, _id : secteurCreate._id, fonction
                     }).then(usercreate =>{
                         if(usercreate){
                             done(null, usercreate)

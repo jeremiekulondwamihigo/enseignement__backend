@@ -4,6 +4,7 @@ const Model_secteur = require("../Models/Model_Secteur")
 const ErrorResponse = require("../utils/errorResponse")
 const { JWT_SECRET } = require("../config/data");
 const Model_Etablissement = require("../Models/Model_Etablissement")
+const Model_Division = require("../Models/Division")
 
 module.exports = {
 protect : async (req, res, next)=>{
@@ -21,13 +22,14 @@ protect : async (req, res, next)=>{
         const user = await Model_Agent.findById({_id : decoded.id});
         const secteur = await Model_secteur.findById({_id : decoded.id})
         const etablissement = await Model_Etablissement.findById({_id : decoded.id})
+        const division = await Model_Division.findById({_id : decoded.id})
 
 
-        if(!user && !secteur && !etablissement){
+        if(!user && !secteur && !etablissement && !division){
             return next(new ErrorResponse("No user found with this id", 200));
         }
         
-        req.user = user ? user : secteur ? secteur : etablissement ;
+        req.user = user ? user : secteur ? secteur : etablissement ? etablissement : division ? division : null  ;
         next();
     } catch (error) {
         return next(new ErrorResponse("Not authorization to access this id", 200))

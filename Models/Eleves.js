@@ -16,7 +16,7 @@ const schema = mongoose.Schema({
         required: [true, "les nom est obligatoire"],
         unique:true
     },
-    code_tuteur : {
+    codeTuteur : {
         type:String,
         required:false,
         default:""
@@ -39,12 +39,26 @@ const schema = mongoose.Schema({
         type:String,
         required:false,
         default:""
+    },
+    libre : {
+        type:Boolean,
+        required:true,
+        default:true 
+        //Quand il sera enregistrer dans une établissement cette valeur prendra la valeur false
+    },
+    codeEtablissement : {
+        type : String,
+        required:true
+    },//Code de l'établissement effectuant l'enregistrement
+    codeInscription : {
+        type:String,
+        required:true,
+        //Ce code est générer automatiquement pour chaque cloture de l'année, Ce code permettra d'inscrire l'élève
     }
-
 })
 schema.pre("save", async function(next){
     const name = this.nom;
-    const nomsecond = name.toUpperCase();
+    const nomsecond = name.toUpperCase().trim();
     this.nom = nomsecond;
 
     next();

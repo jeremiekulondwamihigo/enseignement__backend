@@ -6,7 +6,7 @@ const { modificate_section } = require("../Controllers/Section_Option_Classe/Set
 const { Modification_Option } = require("../Controllers/Section_Option_Classe/Setting_Option")
 const { Modification_Agent } = require("../Controllers/Agent")
 const { Update_Secteur, Reset_Identifiant } = require("../Controllers/Secteur")
-const { Attribution_Option } = require("../Controllers/Etablissement")
+const { Attribution_Option } = require("../Controllers/Division/AddEtablissement")
 
 
 
@@ -16,11 +16,7 @@ router.put("/updateoption", protect, Modification_Option);
 router.put("/updateagent", protect, Modification_Agent);
 router.put("/resetidentifiant/:id", protect, Reset_Identifiant);
 router.put("/updatesecteur/:id", protect, Update_Secteur);
+
 router.put("/attribution", Attribution_Option);
-router.get("/read", (req, res)=>{
-    return res.send({"message":"je suis dans update"})
-})
-
-
 
 module.exports = router;

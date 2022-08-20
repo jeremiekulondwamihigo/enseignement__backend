@@ -9,12 +9,10 @@ const schema = mongoose.Schema({
     code_eleve : {
         type:String, 
         required:true,
-        unique : true,
     },
-    code_etablissement : {
+    codeEtablissement : {
         type:String, 
         required:true,
-        minlength : 7,
     },
     code_Annee : {
         type: String, 
@@ -22,8 +20,18 @@ const schema = mongoose.Schema({
     },
     code_Option : {
         type:String, 
+        required:false //C'est recommander si le niveau de l'élève est inferieur à 5
+    },
+    niveau : {
+        type : Number,
         required:true
     },
+    resultat : {
+        type:Number,
+        required:true,
+        default : 0
+    },
+    
 })
 const model = new mongoose.model("EleveInscrit", schema);
 module.exports = model

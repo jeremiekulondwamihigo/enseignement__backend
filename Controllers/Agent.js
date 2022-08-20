@@ -3,6 +3,7 @@ const asyncLib = require("async")
 const { isEmpty, generateNumber, generateString } = require("../Fonctions/Static_Function")
 const ErrorResponse = require("../utils/errorResponse");
 const Model_User = require("../Models/Users")
+const Model_DomaineAgent = require("../Models/DomaineSituation")
 
 
 
@@ -10,18 +11,18 @@ const Model_User = require("../Models/Users")
 module.exports = {
 
     Agent : (req, res, next)=>{
+        
         try {
-            
-            const { filename } = req.file
+        
         const { agent_save, nom, fonction, dateNaissance, nationalite, 
-            matricule, telephone, dateEngagement, etat, id, genre
+            matricule, telephone, dateEngagement, etat, id, genre, codeDomaine,
         } = req.body
 
         //console.log(req.body)
 
 
         if(isEmpty(agent_save) || isEmpty(nom) || isEmpty(dateNaissance) || isEmpty(nationalite) || 
-        isEmpty(telephone) || isEmpty(dateEngagement) || isEmpty(filename) || isEmpty(fonction)){
+        isEmpty(telephone) || isEmpty(dateEngagement) || isEmpty(fonction) || isEmpty(codeDomaine)){
             return res.status(200).json({
                 "message":"Veuillez renseigner le champs",
                 "error":true
@@ -47,7 +48,7 @@ module.exports = {
                     }else{
                         done(null, true)
                     }
-                })
+                }).catch(function(error){console.log(error)})
             },
             function(agent, done){
                 
@@ -58,9 +59,9 @@ module.exports = {
                     nationalite, 
                     matricule, 
                     telephone, 
-                    filename, 
+                    //filename, 
                     code_agent : code, etat, genre,
-                    fonction, dateEngagement, id
+                    fonction, dateEngagement, id, codeDomaine
                 }).then(agentSave =>{
                     if(agentSave){
                         Model_User.create({
@@ -71,9 +72,18 @@ module.exports = {
 
                         }).then(usercreate =>{
                             done(usercreate)
-                        })
+                        }).catch(function(error){console.log(error)})
                     }
-                })
+                }).catch(function(error){console.log(error)})
+            },
+            function(userCreate){
+                fs.access("./config/Images/", (err)=>{
+                    if(err){
+                      fs.mkdirSync("./config/Images/")
+                    }
+                  })
+                  sharp(req.file.buffer).resize({width:300, height:300}).toFile("./config/Images/"+req.file.originalname)
+                  done(userCreate)
             },
            
         ], function(result){
@@ -95,9 +105,18 @@ module.exports = {
         }
     },
     Read_Agent : (req, res)=>{
-        Model_Agent.find({}).then(response=>{
+        var lookDomaine = {
+            $lookup : {
+                from : "domaineagents",
+                localField : "codeDomaine",
+                foreignField: "codeDomaine",
+                as : "domaine"
+            }
+        }
+       
+        Model_Agent.aggregate([lookDomaine]).then(response=>{
             return res.status(200).json(response.reverse())
-        })
+        }).catch(function(error){console.log(error)})
     },
 
     Modification_Agent : (req, res)=>{

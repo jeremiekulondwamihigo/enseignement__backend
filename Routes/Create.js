@@ -8,34 +8,19 @@ const { Add_Domaine, Add_Cours, Add_Sous_Domaine } = require("../Controllers/Dom
 const {  Agent } = require("../Controllers/Agent")
 const { Add_Secteur } = require("../Controllers/Secteur")
 const { Add_Periode_Secteur } = require("../Controllers/Parameter_Detail_Secteur")
-const { Add_Etablissement } = require("../Controllers/Etablissement")
-const { Add_Division } = require("../Controllers/SousDivision")
-const { Save_Enseignant } = require("../Controllers/EnseignantEcole")
-const { Add_Eleve } = require("../Controllers/Eleve")
-const { login } = require("../controllers/auth");
+const { AddEtablissement } = require("../Controllers/Division/AddEtablissement")
+const { Save_Enseignant } = require("../Controllers/Etablissement/EnseignantEcole")
+const { PremiereEnregistrement } = require("../Controllers/Etablissement/Eleve")
+const { login } = require("../Controllers/auth");
+const { AddDivision } = require("../Controllers/Division")
+const { DomaineAgent } = require("../Controllers/DomaineAgent")
+const { Tuteur } = require("../Controllers/Tuteur/Tuteur")
+const {AgentIage } = require("../Controllers/ImageTest")
 
-// const multer = require("multer")
+ const multer = require("multer")
+const storage = multer.memoryStorage()
+const apload = multer({storage})
 
-// var storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'agentImages/')
-//     },
-//     filename: (req, file, cb) => {
-//         const image = (file.originalname).split(".");
-//         cb(null, `${Date.now()}.${image[1]}`)
-       
-//     },
-//     fileFilter: (req, file, cb) => {
-
-//         const ext = path.extname(file.originalname)
-        
-//         if (ext !== '.jpg' || ext !== '.png') {
-//             return cb(res.status(400).end('only jpg, png are allowed'), false);
-//         }
-//         cb(null, true)
-//     }
-// })
-//  var upload = multer({ storage: storage })
 
 router.post("/addyear", protect, Add_Annee );
 router.post("/addsection", protect, Add_Section);
@@ -43,21 +28,25 @@ router.post("/addoption", protect, Add_Option);
 router.post("/adddomaine", protect, Add_Domaine);
 router.post("/addcours", protect, Add_Cours);
 router.post("/sousdomaine", protect, Add_Sous_Domaine);
-// router.post("/agent", upload.single("file"),  Agent);
-router.post("/agent", Agent);
+router.post("/agent", apload.single("file"),  Agent);
 router.post("/addsecteur", protect, Add_Secteur)
 router.post("/addperiodesecteur", protect, Add_Periode_Secteur)
-router.post("/addetablissement", Add_Etablissement)
-router.post("/division", Add_Division)
+router.post("/domaineAgent", protect, DomaineAgent)
 
 router.post("/enseignantEcole", protect, Save_Enseignant)
-router.post("/eleve", Add_Eleve)
+router.post("/eleve", protect, PremiereEnregistrement)
 
+//POST_DIVISION
+router.post("/division", protect, AddDivision)
+router.post("/addetablissement", AddEtablissement)
+//FIN POST_DIVISION
+
+//TUTEUR
+router.post("/tuteur", Tuteur)
+//FIN TUTEUR
 router.post("/login", login);
 
-router.get("/read", (req, res)=>{
-    return res.send({"message":"je suis dans creation"})
-})
+
 
 
 module.exports = router;

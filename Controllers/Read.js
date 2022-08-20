@@ -4,6 +4,7 @@ const ErrorResponse = require("../utils/errorResponse")
 const { JWT_SECRET } = require("../config/data");
 const Model_secteur = require("../Models/Model_Secteur")
 const Model_Etablissement = require("../Models/Model_Etablissement")
+const Model_Division = require("../Models/Division")
 const asyncLab = require("async")
 
 module.exports = {
@@ -13,17 +14,13 @@ readUser : async (req, res, next)=>{
         token = req.headers.authorization.split(" ")[1];
     }
 
-    // if(!token){
+    if(!token){
         
-    //     return  next(new ErrorResponse("Not authorization to access this route", 200));
-    // }
+        return  next(new ErrorResponse("Not authorization to access this route", 200));
+    }
     
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        const user = await Model_Users.findById({_id : decoded.id});
-        const etablissement = await Model_Etablissement.find({_id: decoded.id})
-
-        console.log(decoded.fonction)
 
         const look_secteur = {
             $lookup : {
@@ -41,72 +38,76 @@ readUser : async (req, res, next)=>{
                 as :"agent"
             }
         }
-
-        if(decoded.fonction === "sousDivision"){
-
+        const lookDivision = {
+            $lookup : {
+                from : "divisions",
+                localField : "code_proved",
+                foreignField : "code_proved",
+                as :"division"
+            }
         }
-        if(decoded.fonction === "etablissement"){
+        
 
-            Model_Etablissement.aggregate([ look_agent, look_secteur ])
+        if(decoded.fonction === "nationale"){
+           
+            Model_secteur.aggregate([ look_agent, look_secteur ])
             .then( login=>{
                 const data = login.filter(c => c._id == decoded.id)
+
+                return res.status(200.).json({
+                    fonction : decoded.fonction,
+                    data 
+                })
+            }).catch(function(error){console.log(error)})
+
+           
+        }
+
+        if(decoded.fonction === "province"){
+            Model_secteur.aggregate([ look_agent, look_secteur ])
+            .then( login=>{
+                const data = login.filter(c => c._id == decoded.id)
+                
+                return res.status(200.).json({
+                    fonction : decoded.fonction,
+                    data 
+                })
+            }).catch(function(error){console.log(error)})
+        }
+
+        if(decoded.fonction === "proved"){
+            Model_Division.aggregate([ look_agent ])
+            .then( login=>{
+                const data = login.filter(c => c._id == decoded.id)
+        
+                return res.status(200.).json({
+                    fonction : decoded.fonction,
+                    data 
+                })
+            }).catch(function(error){console.log(error)})
+        }
+        
+        if(decoded.fonction === "etablissement"){
+
+            Model_Etablissement.aggregate([ look_agent, lookDivision ])
+            .then( login=>{
+                const data = login.filter(c => c._id == decoded.id)
+            
                 return res.status(200.).json({
                     fonction : decoded.fonction,
                     data : data
                 })
-            })
+            }).catch(function(error){console.log(error)})
 
         }
-        if(decoded.fonction === "agent"){
+        if(decoded.fonction === "enseignant"){
 
         }
-        if(decoded.fonction === "secteur"){
+        if(decoded.fonction === "tuteur"){
 
         }
-       
         
-        if(user){
-            
-            return res.status(200).json({
-                user : user,
-                etablissement : true
-            })
-        }else{
-            asyncLab.waterfall([
-                function(done){
-                    Model_secteur.findById({_id : decoded.id}).then(secteurFound =>{
-                        if(secteurFound){
-                            done(null, secteurFound)
-                        }else{
-                            done(false)
-                        }
-                    })
-                },
-                function(secteur, done){
-                    Model_Users.findOne({
-                        code_agent : secteur.code_agent
-                    }).then(agentFound =>{
-                        if(agentFound){
-                            done(agentFound, secteur)
-                        }
-                    })
-                },
-            ],
-            function(agentFound, secteur){
-                if(agentFound){
-                    return res.status(200).json({
-                        agent : agentFound,
-                        user : secteur,
-                        secteur : true
-                    })
-                }else{
-                    return res.status(200).json({
-                        error : true
-                    })
-                }
-            }
-            )     
-        }
+
         
         
         

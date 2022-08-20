@@ -9,9 +9,8 @@ const schema = mongoose.Schema({
     etablissement : {
         type:String, 
         required:true,
-        unique:true
     },
-    code_secteur : {
+    code_proved : {
         type:String, 
         required:true,
     },
@@ -19,7 +18,7 @@ const schema = mongoose.Schema({
         type:String, 
         required:true,
     },
-    code_etablissement : {
+    codeEtablissement : {
         type:String, 
         required:true,
         minlength : 7,

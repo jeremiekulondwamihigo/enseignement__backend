@@ -2,8 +2,22 @@ const ErrorResponse = require("../utils/errorResponse");
 const Model_User = require("../Models/Users")
 
 
-module.exports = {
-login : async (req, res, next) =>{
+exports.register = async (req, res, next )=>{
+    const { username, password, email } = req.body;
+
+    try {
+      const user = await User.create({
+        username, password, email
+      })
+
+     sendToken(user, 200, res);
+
+    } catch (error) {
+      next(error);
+    }
+}
+
+exports.login = async (req, res, next) =>{
   
   const { username, password } = req.body;
 
@@ -32,16 +46,45 @@ login : async (req, res, next) =>{
     res.status(500).json({ success : false, error: error.message
     })
   }
-},
+}
 
+exports.forgetPassword = async (req, res, next)=>{
+  const { mail } = req.body;
 
-resetPassword : (req, res, next)=>{
+  try {
+    const user = await User.findOne({mail});
+
+    if(!user){
+      return next(new ErrorResponse("Email could not be sent", 404));
+    }
+    const resetToken = user.getResetPasswordToken();
+
+    await user.save();
+
+    const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`;
+    const message = `
+      <h1>You have requested a password reset</h1>
+      <p>Please go tp this link to reset your password</p>
+      <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+    `
+
+    try {
+      
+    } catch (error) {
+      
+    }
+
+  } catch (error) {
+    
+  }
+}
+
+exports.resetPassword = (req, res, next)=>{
   res.send("Reset password");
-},
+}
 
-sendToken : (user, statusCode, res)=>{
+const sendToken = (user, statusCode, res)=>{
   
   const token = user.getSignedToken();
   res.status(statusCode).json({sucess : true, token })
-}
 }
