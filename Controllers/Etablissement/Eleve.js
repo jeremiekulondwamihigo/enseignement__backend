@@ -53,8 +53,8 @@ module.exports = {
                     const code = `${annee.annee.split("-")[1]}-${generateNumber(5)}`
 
                     Model_Eleve.create({
-                        id, code_eleve : code, nom, genre, codeTuteur : code_tuteur, date_Naissance,lieu_naissance,
-                        codeEtablissement : agentSave, codeInscription : code 
+                        id, code_eleve : code.trim(), nom, genre, codeTuteur : code_tuteur, date_Naissance,lieu_naissance,
+                        codeEtablissement : agentSave, codeInscription : code.trim() 
                     }).then(response =>{
                         if(response){
                             done(response)
@@ -84,7 +84,7 @@ module.exports = {
     },
     ReInscription : async(req, res)=>{
         try {
-            const { niveau, codeEtablissement, codeInscription, code_Option } = req.body
+            const { niveau, codeEtablissement, codeInscription, code_Option, id } = req.body
             
 
             if(isEmpty(niveau) || isEmpty(codeInscription) || isEmpty(codeEtablissement)){
@@ -104,11 +104,12 @@ module.exports = {
                 })
             }
             
-            asyncLab.waterfall([
+            await asyncLab.waterfall([
                 function(done){
                     Model_Eleve.findOne({
                         codeInscription : code, libre : true
                     }).then(EleveFound =>{
+                        
                         if(EleveFound){
                             done(null, EleveFound)
                         }else{
@@ -124,41 +125,19 @@ module.exports = {
                         if(AnneeFound){
                             if(classe === 7){
                                 Model_EleveInscrit.create({
+                                    id,
                                     code_eleve : EleveFound.code_eleve, 
                                     codeEtablissement, 
-                                    code_Annee : AnneeFound[0].code_Annee, 
+                                    code_Annee : AnneeFound.code_Annee, 
                                     niveau : classe
                                 }).then(EleveSeptiemeCreate =>{
+                                    
                                     if(EleveSeptiemeCreate){
-                                        return res.status(200).json({
-                                            "message":"Elève enregistrer en 7eme année",
-                                            "error":false
-                                        })
-                                    }
+                                        done(true)
+                                    }else{done(false)}
                                 }).catch(function(error){return res.send(error)})
                             }
-                            if(classe === 8){
-                                Model_EleveInscrit.find({
-                                    code_eleve : EleveFound.code_eleve,
-                                    niveau : 7
-                                }).then(EleveHuit =>{
-                                    if(EleveHuit){
-                                        Model_EleveInscrit.create({
-                                            code_eleve : EleveFound.code_eleve, 
-                                            codeEtablissement, 
-                                            code_Annee : AnneeFound[0].code_Annee, 
-                                            niveau : 8
-                                        }).then(EleveHuitCreate =>{
-                                            if(EleveHuitCreate){
-                                                return res.status(200).json({
-                                                    "message":"Elève enregistrer en 8eme année",
-                                                    "error":false
-                                                })
-                                            }
-                                        }).catch(function(error){return res.send(error)})
-                                    }
-                                })
-                            }
+                            
                             else{
                                 done(null, EleveFound, AnneeFound)
                             }
@@ -167,11 +146,37 @@ module.exports = {
                         }
                     }).catch(function(error){return res.send(error)})
                 },
+                function(EleveFound, AnneeFound, done){
+                    if(classe === 8){
+                        Model_EleveInscrit.find({
+                            code_eleve : EleveFound.code_eleve,
+                            niveau : 7
+                        }).then(EleveHuit =>{
+                            if(EleveHuit){
+                                Model_EleveInscrit.create({
+                                    code_eleve : EleveFound.code_eleve, 
+                                    codeEtablissement, 
+                                    code_Annee : AnneeFound.code_Annee, 
+                                    niveau : 8, id
+                                }).then(EleveHuitCreate =>{
+                                    if(EleveHuitCreate){
+                                        return res.status(200).json({
+                                            "message":"Elève enregistrer en 8eme année",
+                                            "error":false
+                                        })
+                                    }
+                                }).catch(function(error){return res.send(error)})
+                            }
+                        })
+                    }else{
+                        done(null, EleveFound, AnneeFound)
+                    }
+                },
                 //Si l'élève n'est pas de la 7eme année
                 function(EleveFound, AnneeFound, done){
                     if(classe === 1){
                         Model_EleveInscrit.findOne({
-                            code_eleve : EleveFound.EleveFound,
+                            code_eleve : EleveFound.code_eleve,
                             niveau : 8
                         }).then(EleveHuitiemeFound =>{
                             if(EleveHuitiemeFound){
@@ -209,33 +214,41 @@ module.exports = {
                 //Si la classe est 2, 3 et 4 ?
                 function(EleveFound, AnneeFound, done){
                     Model_EleveInscrit.find({
-                        code_eleve : EleveFound.EleveFound,
+                        code_eleve : EleveFound.code_eleve,
                     }).then(Eleve =>{
                         
                         if(Eleve){
                             const indice = Eleve[Eleve.length - 1];
-                            const maxActuelle = Eleve[indice].max;
                            
-                            if(indice + 1 !== classe){
+                            if(parseInt(indice.niveau) + 1 != classe){
                                 return res.status(200).json({
-                                    "message":`L'élève doit faire la ${Eleve[indice].niveau}eme`,
+                                    "message":`L'élève doit faire le niveau ${parseInt(indice.niveau) + 1}`,
                                     "error":true
                                 })
-                            }
-                            Model_Option.findOne({
-                                code_Option
-                            }).then(CodeFound =>{
-                                if(CodeFound){
-                                    if(CodeFound[0].max > maxActuelle){
-                                        return res.status(200).json({
-                                            "message":"Le resultat précédent doit etre superieur à "+CodeFound[0].max,
-                                            "error":true
-                                        })
-                                    }else{
-                                        done(null, EleveFound, AnneeFound)
+                            }else{
+                                
+                                Model_Option.findOne({
+                                    code_Option
+                                }).then(CodeFound =>{
+                                    console.log("e suis eleve", Eleve[Eleve.length - 1])
+                                    if(CodeFound){
+                                        if(CodeFound.max > Eleve[Eleve.length - 1].resultat){
+                                            return res.status(200).json({
+                                                "message":"Le resultat précédent doit etre superieur à "+CodeFound.max+"%",
+                                                "error":true
+                                            })
+                                        }else{
+                                            done(null, EleveFound, AnneeFound)
+                                        }
                                     }
-                                }
-                            }).catch(function(error){return res.send(error)})
+                                }).catch(function(error){return res.send(error)})
+                            }
+                           
+                        }else{
+                            return res.status(200).json({
+                                "message":"Eleve introuvable",
+                                "error":true
+                            })
                         }
                     }).catch(function(error){return res.send(error)})
                 },

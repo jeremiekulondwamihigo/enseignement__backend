@@ -10,7 +10,7 @@ const { Add_Secteur } = require("../Controllers/Secteur")
 const { Add_Periode_Secteur } = require("../Controllers/Parameter_Detail_Secteur")
 const { AddEtablissement } = require("../Controllers/Division/AddEtablissement")
 const { Save_Enseignant } = require("../Controllers/Etablissement/EnseignantEcole")
-const { PremiereEnregistrement } = require("../Controllers/Etablissement/Eleve")
+const { PremiereEnregistrement, ReInscription } = require("../Controllers/Etablissement/Eleve")
 const { login } = require("../Controllers/auth");
 const { AddDivision } = require("../Controllers/Division")
 const { DomaineAgent } = require("../Controllers/DomaineAgent")
@@ -33,8 +33,10 @@ router.post("/addsecteur", protect, Add_Secteur)
 router.post("/addperiodesecteur", protect, Add_Periode_Secteur)
 router.post("/domaineAgent", protect, DomaineAgent)
 
+//ETABLISSEMENT
+router.post("/inscription", ReInscription)
 router.post("/enseignantEcole", protect, Save_Enseignant)
-router.post("/eleve", protect, PremiereEnregistrement)
+router.post("/eleve", PremiereEnregistrement)
 
 //POST_DIVISION
 router.post("/division", protect, AddDivision)

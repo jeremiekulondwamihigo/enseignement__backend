@@ -8,7 +8,7 @@ const schema = mongoose.Schema({
     },
     code_eleve : {
         type:String, 
-        required:[true, "Veuillez relancer l'enregistrement"],
+        required:true,
         unique : true,
     },
     nom : {
