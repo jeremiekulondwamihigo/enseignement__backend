@@ -49,7 +49,9 @@ const multer = require("multer");
 // })
 
 
-
+app.get("/", (req, res)=>{
+  return res.send("Je suis dans home")
+})
 
 
 const PORT = process.env.PORT || 8080;
