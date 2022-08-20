@@ -31,33 +31,33 @@ app.use("/imgagent", express.static(path.resolve(__dirname, "agentImages")))
 app.use(errorHandler);
 
 const multer = require("multer");
-const sharp = require("sharp")
-const storage = multer.memoryStorage()
-const apload = multer({storage})
-const fs = require("fs")
+// const sharp = require("sharp")
+// const storage = multer.memoryStorage()
+// const apload = multer({storage})
+// const fs = require("fs")
 
-app.post("/multer", apload.single("thumbnail"), async (req, res)=>{
+// app.post("/multer", apload.single("thumbnail"), async (req, res)=>{
   
-  fs.access("./config/Images/", (err)=>{
-    if(err){
-      fs.mkdirSync("./config/Images/")
-    }
-  })
-  await sharp(req.file.buffer).resize({width:300, height:300}).toFile("./config/Images/"+req.file.originalname)
+//   fs.access("./config/Images/", (err)=>{
+//     if(err){
+//       fs.mkdirSync("./config/Images/")
+//     }
+//   })
+//   await sharp(req.file.buffer).resize({width:300, height:300}).toFile("./config/Images/"+req.file.originalname)
 
 
-})
+// })
 
 
 
 
 
 const PORT = process.env.PORT || 8080;
-const server = app.listen(PORT, ()=>console.log("server running "+PORT))
+app.listen(PORT, ()=>console.log("server running "+PORT))
 
-process.on("unhandledRejection", (err, promise)=>{
-  console.log(`Logged Error :${err}`);
+// process.on("unhandledRejection", (err, promise)=>{
+//   console.log(`Logged Error :${err}`);
   
-  server.close(()=>process.exit(1));
+//   server.close(()=>process.exit(1));
   
-})
+// })
