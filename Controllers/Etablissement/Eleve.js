@@ -7,7 +7,18 @@ const Model_Option = require("../../Models/Model_Option")
 const asyncLab = require("async");
 const { isEmpty, generateNumber } = require("../../Fonctions/Static_Function")
 
+const exportation = (code)=>{
+    Model_Eleve.findOneAndUpdate({code_eleve : code}, { $set : { libre : false}}, null, (error, result)=>{
+        if(error)throw error
+        if(result){
+           return result 
+        }
+        
+    })
+}
+
 module.exports = {
+    
     PremiereEnregistrement : async (req, res)=>{
         try {
 
@@ -57,6 +68,7 @@ module.exports = {
                         codeEtablissement : agentSave, codeInscription : code.trim() 
                     }).then(response =>{
                         if(response){
+                            
                             done(response)
                         }else{done(false)}
                     })
@@ -82,7 +94,7 @@ module.exports = {
             console.log(error)
         }
     },
-    ReInscription : async(req, res)=>{
+    ReInscription : (req, res)=>{
         try {
             const { niveau, codeEtablissement, codeInscription, code_Option, id } = req.body
             
@@ -104,7 +116,7 @@ module.exports = {
                 })
             }
             
-            await asyncLab.waterfall([
+            asyncLab.waterfall([
                 function(done){
                     Model_Eleve.findOne({
                         codeInscription : code, libre : true
@@ -133,7 +145,9 @@ module.exports = {
                                 }).then(EleveSeptiemeCreate =>{
                                     
                                     if(EleveSeptiemeCreate){
-                                        done(true)
+                                        exportation(EleveSeptiemeCreate.code_eleve);
+                                        done(true);
+                                        
                                     }else{done(false)}
                                 }).catch(function(error){return res.send(error)})
                             }
@@ -160,10 +174,12 @@ module.exports = {
                                     niveau : 8, id
                                 }).then(EleveHuitCreate =>{
                                     if(EleveHuitCreate){
+                                        exportation(EleveFound.code_eleve);
                                         return res.status(200).json({
                                             "message":"Elève enregistrer en 8eme année",
                                             "error":false
                                         })
+                                        
                                     }
                                 }).catch(function(error){return res.send(error)})
                             }
@@ -188,6 +204,7 @@ module.exports = {
                                     niveau : 1,
                                 }).then(ElevePremiereCreate =>{
                                     if(ElevePremiereCreate){
+                                        exportation(EleveFound.code_eleve);
                                         return res.status(200).json({
                                             "message":"Elève enregistrer en premiere annee",
                                             "error":false
@@ -257,6 +274,7 @@ module.exports = {
                         id, code_eleve : EleveFound.code_eleve , codeEtablissement,
                         code_Annee : AnneeFound.code_Annee, code_Option, niveau : classe,
                     }).then(EleveCreate =>{
+                        exportation(EleveFound.code_eleve);
                         done(EleveCreate)
                     }).catch(function(error){ return res.send(error)})
                 }
@@ -284,5 +302,30 @@ module.exports = {
         }).then(eleveFound =>{
             return res.send(eleveFound.reverse())
         }).catch(function(error){console.log(error)})
+    },
+    EleveReadSelonAnnee : (req, res)=>{
+        const { annee } = req.params
+
+        let lookEleve = {
+            $lookup : {
+                from : "eleves",
+                localField : "code_eleve",
+                foreignField : "code_eleve",
+                as : "eleve"
+            }
+        }
+        let option = {
+            $lookup : {
+                from : "options",
+                localField : "code_Option",
+                foreignField : "code_Option",
+                as : "option"
+            }
+        }
+        let match = { $match : {code_Annee : annee }}
+        Model_EleveInscrit.aggregate([match, lookEleve, option]).then(EleveFound =>{
+            return res.status(200).json(EleveFound.reverse());
+        }).catch(function(error){return res.send(error)})
     }
+
 }
