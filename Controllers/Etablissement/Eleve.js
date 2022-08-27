@@ -97,6 +97,7 @@ module.exports = {
     ReInscription : (req, res)=>{
         try {
             const { niveau, codeEtablissement, codeInscription, code_Option, id } = req.body
+            console.log(req.body)
             
 
             if(isEmpty(niveau) || isEmpty(codeInscription) || isEmpty(codeEtablissement)){
@@ -141,15 +142,19 @@ module.exports = {
                                     code_eleve : EleveFound.code_eleve, 
                                     codeEtablissement, 
                                     code_Annee : AnneeFound.code_Annee, 
-                                    niveau : classe
+                                    niveau : classe,
+                                    codeInscription
                                 }).then(EleveSeptiemeCreate =>{
-                                    
+                                    console.log(EleveSeptiemeCreate)
                                     if(EleveSeptiemeCreate){
                                         exportation(EleveSeptiemeCreate.code_eleve);
-                                        done(true);
+                                        return res.status(200).json({
+                                            "message":"Inscription effectuée",
+                                            "error":false
+                                        })
                                         
                                     }else{done(false)}
-                                }).catch(function(error){return res.send(error)})
+                                }).catch(function(error){console.log(error)})
                             }
                             
                             else{
@@ -171,7 +176,8 @@ module.exports = {
                                     code_eleve : EleveFound.code_eleve, 
                                     codeEtablissement, 
                                     code_Annee : AnneeFound.code_Annee, 
-                                    niveau : 8, id
+                                    niveau : 8, id,
+                                    codeInscription
                                 }).then(EleveHuitCreate =>{
                                     if(EleveHuitCreate){
                                         exportation(EleveFound.code_eleve);
@@ -201,7 +207,7 @@ module.exports = {
                                     codeEtablissement, 
                                     code_Annee : AnneeFound.code_Annee,
                                     code_Option,
-                                    niveau : 1,
+                                    niveau : 1, codeInscription
                                 }).then(ElevePremiereCreate =>{
                                     if(ElevePremiereCreate){
                                         exportation(EleveFound.code_eleve);
@@ -272,7 +278,7 @@ module.exports = {
                 function(EleveFound, AnneeFound, done){
                     Model_EleveInscrit.create({
                         id, code_eleve : EleveFound.code_eleve , codeEtablissement,
-                        code_Annee : AnneeFound.code_Annee, code_Option, niveau : classe,
+                        code_Annee : AnneeFound.code_Annee, code_Option, niveau : classe, codeInscription
                     }).then(EleveCreate =>{
                         exportation(EleveFound.code_eleve);
                         done(EleveCreate)
@@ -304,7 +310,8 @@ module.exports = {
         }).catch(function(error){console.log(error)})
     },
     EleveReadSelonAnnee : (req, res)=>{
-        const { annee } = req.params
+        const { id, codeEtablissement } = req.params
+        console.log(id, codeEtablissement)
 
         let lookEleve = {
             $lookup : {
@@ -322,10 +329,34 @@ module.exports = {
                 as : "option"
             }
         }
-        let match = { $match : {code_Annee : annee }}
+        let match = { $match : {code_Annee : id, codeEtablissement }}
         Model_EleveInscrit.aggregate([match, lookEleve, option]).then(EleveFound =>{
             return res.status(200).json(EleveFound.reverse());
         }).catch(function(error){return res.send(error)})
+    },
+    EleveRecherche : (req, res)=>{
+        const { data } = req.body
+        
+
+        Model_EleveInscrit.find({
+            data
+        }).then(response =>{
+            if(response){
+                return res.status(200).json(response);
+            }
+        })
+
+    },
+    InformationEleve : async(req, res)=>{
+        
+        let tuteur = {
+            $lookup : {
+                from : "tuteurs",
+                localField : "codeTuteur",
+                foreignField : "codeTuteur",
+                as : "tuteur"
+            }
+        } 
     }
 
 }

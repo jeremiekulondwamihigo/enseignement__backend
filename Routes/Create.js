@@ -34,7 +34,7 @@ router.post("/addperiodesecteur", protect, Add_Periode_Secteur)
 router.post("/domaineAgent", protect, DomaineAgent)
 
 //ETABLISSEMENT
-router.post("/inscription", ReInscription)
+router.post("/inscription", protect, ReInscription)
 router.post("/enseignantEcole", protect, Save_Enseignant)
 router.post("/eleve", PremiereEnregistrement)
 

@@ -6,7 +6,6 @@ const Model_User = require("../Models/Users")
 exports.login = async (req, res, next) =>{
   
   const { username, password } = req.body;
-  console.log(req.body)
 
   if(!username || !password){
     return next(new ErrorResponse("Veuillez renseigner les champs", 200));

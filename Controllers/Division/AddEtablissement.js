@@ -139,9 +139,9 @@ module.exports = {
     Attribution_Option : async (req, res)=>{
         
         try {
-            const { id, code_option } = req.body
+            const { codeEtablissement, code_option } = req.body
 
-            if(isEmpty(id) || isEmpty(code_option)){
+            if(isEmpty(codeEtablissement) || isEmpty(code_option)){
                 return res.status(200).json({
                     "message":"Erreur d'affectation",
                     "error":true
@@ -149,7 +149,7 @@ module.exports = {
             }
             await asyncLab.waterfall([
                 function(done){
-                    Model_Etablissement.findById({ _id : id})
+                    Model_Etablissement.findOne({ codeEtablissement : codeEtablissement})
                     .then(etablissement =>{
                      
                         if(etablissement){
@@ -179,7 +179,7 @@ module.exports = {
                             initiale.push(etablissement.code_option[i])
                         }
                     }
-                    let valeur = initiale.filter(c =>c == code_option)
+                    let valeur = initiale.filter(c =>c === code_option)
                     if(valeur.length > 0){
 
                         return res.status(200).json({
@@ -195,7 +195,7 @@ module.exports = {
                     initiale.push(optionFound.code_Option)
                     
                     Model_Etablissement.findOneAndUpdate({ 
-                        _id : id
+                        codeEtablissement : codeEtablissement
                     }, { $set: {
                         code_option : initiale
                     }}, null, (error, result)=>{
@@ -208,7 +208,7 @@ module.exports = {
                     })
                 }
             ], function(result){
-                console.log(result)
+    
                 if(result){
                     return res.status(200).json({
                         "message":"Affectation effectuée",

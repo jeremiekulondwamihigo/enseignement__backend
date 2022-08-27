@@ -7,7 +7,8 @@ module.exports = {
     AddDivision : async (req, res)=>{
         try {
             
-            const { code_province, code_agent, denomination, code_proved, id, code_annee } = req.body
+            const { code_province, code_agent, denomination, code_proved, id, } = req.body
+            console.log(req.body)
             
 
             if(isEmpty(code_province) || isEmpty(code_agent) || isEmpty(denomination) || isEmpty(code_proved)){

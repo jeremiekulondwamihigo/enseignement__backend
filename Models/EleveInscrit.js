@@ -31,6 +31,10 @@ const schema = mongoose.Schema({
         required:true,
         default : 0
     },
+    codeInscription : {
+        type : String,
+        required : true
+    }
 })
 const model = new mongoose.model("EleveInscrit", schema);
 module.exports = model

@@ -17,6 +17,6 @@ router.put("/updateagent", protect, Modification_Agent);
 router.put("/resetidentifiant/:id", protect, Reset_Identifiant);
 router.put("/updatesecteur/:id", protect, Update_Secteur);
 
-router.put("/attribution", Attribution_Option);
+router.put("/attribution", protect, Attribution_Option);
 
 module.exports = router;

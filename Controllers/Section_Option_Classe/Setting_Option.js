@@ -63,7 +63,6 @@ module.exports = {
     },
     Modification_Option  : (request, response)=>{
         try {
-            console.log(request.body)
             const { _id, option_modification } = request.body;
             if(isEmpty(option_modification) || isEmpty(_id)){
                 return response.status(200).json({
@@ -115,7 +114,7 @@ module.exports = {
     Read_Option_Etablissement : (req, res)=>{
         try{
 
-            const { id } = req.params
+            const { codeEtablissement } = req.params
 
            AsyncLib.waterfall([
             function(done){
@@ -127,7 +126,7 @@ module.exports = {
                 })
             },
             function(option, done){
-                Model_Etablissement.findById({_id : id})
+                Model_Etablissement.findOne({codeEtablissement})
                 .then(etablissement=>{
                     if(etablissement){
                         let table = []
