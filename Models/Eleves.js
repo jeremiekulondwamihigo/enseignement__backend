@@ -3,18 +3,27 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema({
     id : {
         type: String,
-        required: [true, "Veuillez relancer l'enregistrement"],
+        required: true,
         unique : true
+        //Valeur front automatiquement
     },
     code_eleve : {
         type:String, 
         required:true,
         unique : true,
+        //Valeur backend
     },
     nom : {
         type : String,
-        required: [true, "les nom est obligatoire"],
-        unique:true
+        required: true,
+    },
+    postNom : {
+        type : String,
+        required: true,
+    },
+    prenom : {
+        type : String,
+        required: true,
     },
     codeTuteur : {
         type:String,
@@ -33,7 +42,7 @@ const schema = mongoose.Schema({
     },
     genre : { 
         type:String, 
-        required:[true, "Le genre est obligatoire"]
+        required:true
     },
     filename : {
         type:String,
@@ -54,7 +63,32 @@ const schema = mongoose.Schema({
         type:String,
         required:true,
         //Ce code est générer automatiquement pour chaque cloture de l'année, Ce code permettra d'inscrire l'élève
-    }
+    },
+    nationalite : {
+        type:String,
+        required:true
+    },
+    nomPere : {
+        type:String,
+        required:false,
+        default: ""
+    },
+    professionPere :{
+        type:String,
+        required:false,
+        default : ""
+    },
+    nomMere : {
+        type:String, 
+        required:false,
+        default:""
+    },
+    professionMere : {
+        type:String,
+        required:false,
+        default:""
+    },
+
 })
 schema.pre("save", async function(next){
     const name = this.nom;

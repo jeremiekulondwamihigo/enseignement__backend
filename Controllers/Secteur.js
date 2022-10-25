@@ -12,6 +12,8 @@ module.exports = {
             const { code_province, code_agent, denomination, code_secteur, id } = req.body.valeur
             const { fonction } = req.body
 
+            console.log(req.body)
+
             if(isEmpty(code_province) || isEmpty(code_agent) || isEmpty(denomination) || isEmpty(fonction)){
                 return res.status(200).json({
                     "message":"Veuillez renseigner le champs",
@@ -81,8 +83,8 @@ module.exports = {
             function(result){
                 if(result){
                     return res.status(200).json({
-                        "message":"username "+result.username+ " password "+password,
-                        "error":false
+                        "error":"username "+result.username+ " password "+password,
+                        "success":true
                     })
                 }else{
                     return next(new ErrorResponse("Erreur d'enregistrement", 200));

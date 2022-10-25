@@ -1,3 +1,4 @@
+const ModelAnnee = require("../Models/Model_Annee")
 
 module.exports = {
     isEmpty : function(value){
@@ -51,4 +52,17 @@ module.exports = {
             day = 1000*60*60*24;
         return(date2utc - date1utc)/day
     },
+    convert : (donner)=>{
+        let retourner = donner.toUpperCase().trim();
+        return retourner
+    },
+ 
+    retournerAnnee : async ()=>{
+        const response = await ModelAnnee.findOne({ active : true })
+        retournerAnn(response)
+    },
+    retournerAnn : (donner)=>{
+       
+        return donner
+     },
 }

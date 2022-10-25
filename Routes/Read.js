@@ -10,7 +10,9 @@ const { read_secteur, read_one_secteur } = require("../Controllers/Secteur")
 const { Read_etablissement } = require("../Controllers/Division/AddEtablissement")
 const { One_agent, Read_Agent_Etablissement, ReadAgentDomaine } = require("../Controllers/Other_Read")
 const { readUser } = require("../Controllers/Read")
-const { ReadEleveEtablissement, EleveRecherche, EleveReadSelonAnnee } = require("../Controllers/Etablissement/Eleve")
+const { ReadEleveEtablissement, EleveRecherche, graphiqueEleve,
+    EleveReadSelonAnnee, InformationEleve, Eleve_InscritEtablissement_Proved, Eleve_Division
+ } = require("../Controllers/Etablissement/Eleve")
 
 
 router.get("/readyear", protect, Read_Year )
@@ -37,8 +39,12 @@ router.get("/option", protect, read_Option)
 
 //ETABLISSEMENT
 router.get("/readEleve/:codeEtablissement", protect, ReadEleveEtablissement)
-router.get("/singlerecherche", EleveRecherche)
+router.get("/singlerecherche/:codeEtablissement", protect, EleveRecherche)
 router.get("/readEleveSelonAnnee/:id/:codeEtablissement", protect, EleveReadSelonAnnee)
+router.get("/informationeleve/:id", InformationEleve)
+router.get("/eleveproved", Eleve_InscritEtablissement_Proved)
+router.get("/elevedivision", Eleve_Division)
+router.get("/readGraphique/:codeEtablissement", graphiqueEleve)
 //FIN ETABLISSEMENT
 
 

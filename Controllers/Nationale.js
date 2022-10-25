@@ -8,7 +8,7 @@ module.exports = {
     Ajouter : async(req, res)=>{
         try{
 
-            const { id, code_agent, fonction } = req.body
+            const { id, code_agent } = req.body
 
             if(isEmpty(code_agent) || isEmpty(fonction)){
                 return res.status(200).json({

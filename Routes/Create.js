@@ -15,11 +15,13 @@ const { login } = require("../Controllers/auth");
 const { AddDivision } = require("../Controllers/Division")
 const { DomaineAgent } = require("../Controllers/DomaineAgent")
 const { Tuteur } = require("../Controllers/Tuteur/Tuteur")
-const {AgentIage } = require("../Controllers/ImageTest")
 
  const multer = require("multer")
 const storage = multer.memoryStorage()
+
 const apload = multer({storage})
+
+
 
 
 router.post("/addyear", protect, Add_Annee );
@@ -31,10 +33,10 @@ router.post("/sousdomaine", protect, Add_Sous_Domaine);
 router.post("/agent", apload.single("file"),  Agent);
 router.post("/addsecteur", protect, Add_Secteur)
 router.post("/addperiodesecteur", protect, Add_Periode_Secteur)
-router.post("/domaineAgent", protect, DomaineAgent)
+router.post("/domaineAgent", DomaineAgent)
 
 //ETABLISSEMENT
-router.post("/inscription", protect, ReInscription)
+router.post("/inscription", ReInscription)
 router.post("/enseignantEcole", protect, Save_Enseignant)
 router.post("/eleve", PremiereEnregistrement)
 

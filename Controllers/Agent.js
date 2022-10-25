@@ -4,6 +4,8 @@ const { isEmpty, generateNumber, generateString } = require("../Fonctions/Static
 const ErrorResponse = require("../utils/errorResponse");
 const Model_User = require("../Models/Users")
 const Model_DomaineAgent = require("../Models/DomaineSituation")
+const fs = require("fs");
+const sharp = require("sharp");
 
 
 
@@ -51,7 +53,7 @@ module.exports = {
                 }).catch(function(error){console.log(error)})
             },
             function(agent, done){
-                
+
                 Model_Agent.create({
                     agent_save, 
                     nom : nomAgent, 
@@ -59,32 +61,47 @@ module.exports = {
                     nationalite, 
                     matricule, 
                     telephone, 
-                    //filename, 
+                    // filename, 
                     code_agent : code, etat, genre,
                     fonction, dateEngagement, id, codeDomaine
                 }).then(agentSave =>{
-                    if(agentSave){
-                        Model_User.create({
-                            username : agentSave.telephone,
-                            password : password,
-                            _id : agentSave._id,
-                            fonction :"agent"
+                   
+                    if(agentSave) {
+                        done(null, agentSave)
+                    }
+                }).catch(function(error){
+                    return res.status(200).json({
+                        "message":"Catch : "+error,
+                        "error":true
+                    }) 
+                })
+            }, function(agentSave, done){
+               
+                    Model_User.create({
+                        username : agentSave.telephone,
+                        password : password,
+                        _id : agentSave._id,
+                        fonction :"enseignant"
 
-                        }).then(usercreate =>{
-                            done(usercreate)
-                        }).catch(function(error){console.log(error)})
-                    }
-                }).catch(function(error){console.log(error)})
-            },
-            function(userCreate){
-                fs.access("./config/Images/", (err)=>{
-                    if(err){
-                      fs.mkdirSync("./config/Images/")
-                    }
-                  })
-                  sharp(req.file.buffer).resize({width:300, height:300}).toFile("./config/Images/"+req.file.originalname)
-                  done(userCreate)
-            },
+                    }).then(usercreate =>{
+                        done(usercreate)
+                    }).catch(function(error){
+                        return res.status(200).json({
+                            "message":"Catch : "+error,
+                            "error":true
+                        }) 
+                    })
+                
+            }
+            // function(userCreate, done){
+            //     fs.access("./config/Images/", (err)=>{
+            //         if(err){
+            //           fs.mkdirSync("./config/Images/")
+            //         }
+            //       })
+            //       sharp(req.file.buffer).resize({width:300, height:300}).toFile("./config/Images/"+req.file.originalname)
+            //       done(userCreate)
+            // },
            
         ], function(result){
             if(result){
