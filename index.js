@@ -48,7 +48,9 @@ app.get("/", (req, res) => {
     res.render("LoginScreen")
 })
 
-
+app.get("/", (req, res)=>{
+    res.send({"message":"Merci jeremie"})
+})
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => console.log("server running " + PORT))
 
